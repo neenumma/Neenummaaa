@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heyy 😚</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  text-align:center;
+  overflow:hidden;
+}
+
+.container{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+}
+
+button{
+  margin:10px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d6d;
+  color:white;
+}
+
+#lines{
+  font-size:24px;
+  color:white;
+}
+
+/* FIXED LEFT + RIGHT PHOTOS */
+.photo{
+  position:fixed;
+  top:20px;
+  width:120px;
+  height:150px;
+  background:white;
+  padding:8px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  transition:0.5s;
+}
+
+#leftPhoto{ left:20px; transform:rotate(-6deg); }
+#rightPhoto{ right:20px; transform:rotate(6deg); }
+
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.fade{
+  opacity:0;
+  transform:scale(0.9);
+}
+</style>
+</head>
+
+<body>
+
+<!-- QUESTION -->
+<div class="container" id="questionBox">
+  <h2>Edi, yy nk ara aryuo? 😏💖</h2>
+  <button onclick="yes()">Yes 😌</button>
+  <button onclick="no()">No 😏</button>
+</div>
+
+<!-- PHOTOS (HIDDEN INITIALLY) -->
+<div id="leftPhoto" class="photo" style="display:none;">
+  <img id="imgLeft" src="photo1.jpg">
+</div>
+
+<div id="rightPhoto" class="photo" style="display:none;">
+  <img id="imgRight" src="photo2.jpg">
+</div>
+
+<div id="lines"></div>
+
+<audio id="song" src="song.mp3"></audio>
+
+<script>
+
+function yes(){
+  document.getElementById("questionBox").innerHTML =
+    "<h2>Hehe 😌❤️ Ente allee 😚💋</h2>";
+}
+
+function no(){
+
+  document.getElementById("questionBox").style.display="none";
+  document.getElementById("leftPhoto").style.display="block";
+  document.getElementById("rightPhoto").style.display="block";
+
+  const audio = document.getElementById("song");
+  const lineBox = document.getElementById("lines");
+  const left = document.getElementById("imgLeft");
+  const right = document.getElementById("imgRight");
+
+  audio.play();
+
+  function changePhotos(l,r){
+    left.classList.add("fade");
+    right.classList.add("fade");
+
+    setTimeout(()=>{
+      left.src = l;
+      right.src = r;
+      left.classList.remove("fade");
+      right.classList.remove("fade");
+    },300);
+  }
+
+  audio.ontimeupdate = function(){
+
+    let t = audio.currentTime;
+
+    if(t >= 0 && t < 1.5){
+      lineBox.innerHTML = "Kaath kittye muthannn 😚💋";
+      changePhotos("photo1.jpg","photo2.jpg");
+    }
+    else if(t >= 1.5 && t < 4.75){
+      lineBox.innerHTML = "Thedi kittya ponaane 😌❤️";
+      changePhotos("photo3.jpg","photo4.jpg");
+    }
+    else if(t >= 4.75 && t < 9){
+      lineBox.innerHTML = "Kattedthoru moha sothaneeee 😌❤️🫵🏻";
+      changePhotos("photo5.jpg","photo6.jpg");
+    }
+    else if(t >= 9){
+      lineBox.innerHTML = "Love uhhh mwaaahhh 😌💋💗";
+      changePhotos("photo7.jpg","photo8.jpg");
+    }
+
+  };
+
+}
+
+</script>
+
+</body>
+</html>
