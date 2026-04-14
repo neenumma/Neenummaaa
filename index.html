@@ -38,10 +38,36 @@ button{
   color:white;
   transition:0.4s;
 }
+
+#photoBox{
+  position:absolute;
+  top:20px;
+  left:20px;
+  width:130px;
+  height:160px;
+}
+
+#photoBox img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  transition:0.6s;
+}
+
+.fade{
+  opacity:0;
+  transform:scale(0.9);
+}
 </style>
 </head>
 
 <body>
+
+<div id="photoBox">
+  <img id="photo" src="photo1.jpg">
+</div>
 
 <div class="container" id="questionBox">
   <h2>Edi, yy nk ara aryuo? 😏💖</h2>
@@ -65,24 +91,59 @@ function no(){
 
   const audio = document.getElementById("song");
   const lineBox = document.getElementById("lines");
+  const photo = document.getElementById("photo");
 
   audio.play();
+
+  let lastLine = -1;
+  let photoIndex = 0;
+  let interval;
+
+  const photoSets = [
+    ["photo1.jpg","photo2.jpg"],
+    ["photo3.jpg","photo4.jpg"],
+    ["photo5.jpg","photo6.jpg"],
+    ["photo7.jpg","photo8.jpg"]
+  ];
+
+  function changePhoto(set){
+    photo.classList.add("fade");
+
+    setTimeout(()=>{
+      photo.src = set[photoIndex % 2];
+      photoIndex++;
+      photo.classList.remove("fade");
+    },300);
+  }
 
   audio.ontimeupdate = function(){
 
     let t = audio.currentTime;
 
+    function switchSet(index){
+      if(lastLine !== index){
+        lastLine = index;
+        photoIndex = 0;
+        clearInterval(interval);
+        interval = setInterval(()=>changePhoto(photoSets[index]),1500);
+      }
+    }
+
     if(t >= 0 && t < 1.5){
       lineBox.innerHTML = "Kaath kittye muthannn 😚💋";
+      switchSet(0);
     }
     else if(t >= 1.5 && t < 4.75){
       lineBox.innerHTML = "Thedi kittya ponaane 😌❤️";
+      switchSet(1);
     }
     else if(t >= 4.75 && t < 9){
       lineBox.innerHTML = "Kattedthoru moha sothaneeee 😌❤️🫵🏻";
+      switchSet(2);
     }
     else if(t >= 9){
       lineBox.innerHTML = "Love uhhh mwaaahhh 😌💋💗";
+      switchSet(3);
     }
 
   };
